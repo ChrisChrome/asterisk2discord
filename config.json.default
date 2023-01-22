@@ -1,0 +1,11 @@
+{
+	"discord": {
+		"token": "",
+		"guildId": "",
+		"channelId": "",
+		"ownerId": ""
+	},
+	"express": {
+		"port": 4004
+	}
+}
