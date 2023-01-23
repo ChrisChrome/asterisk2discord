@@ -37,6 +37,22 @@ app.post("/upload", (req, res) => {
 	res.send("Uploaded");
 });
 
+app.post("/send", (req, res) => {
+	if (!ready) {
+		res.sendStatus(503).send("Bot is not ready");
+		return;
+	}
+	client.channels.fetch(config.discord.channelId).then(channel => {
+		if (!req.body) {
+			res.sendStatus(400).send("No body was sent.");
+			return;
+		}
+
+		channel.send(req.body);
+	});
+	res.send("Sent");
+});
+
 client.on("ready", () => {
 	ready = true;
 	console.log("Bot is ready");
