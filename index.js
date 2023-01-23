@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const express = require("express");
+const bodyParser = require("body-parser")
 const app = express();
 const client = new Discord.Client({
 	intents: ["Guilds"]
@@ -13,6 +14,8 @@ app.use(fileUpload({
 		fileSize: 8 * 1024 * 1024
 	},
 }));
+app.use(bodyParser.json());
+//app.use(bodyParser.text());
 
 var ready = false;
 
@@ -43,14 +46,9 @@ app.post("/send", (req, res) => {
 		return;
 	}
 	client.channels.fetch(config.discord.channelId).then(channel => {
-		if (!req.body) {
-			res.sendStatus(400).send("No body was sent.");
-			return;
-		}
-
-		channel.send(req.body);
+		channel.send(req.body.message);
+		res.send("Sent");
 	});
-	res.send("Sent");
 });
 
 client.on("ready", () => {
